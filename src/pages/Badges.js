@@ -4,6 +4,7 @@ import BadgesList from "../components/BadgesList";
 
 import "./styles/Badges.css";
 import confLogo from "../images/badge-header.svg";
+import { Link } from "react-router-dom";
 
 export default class Badges extends Component {
   state = {
@@ -57,9 +58,10 @@ export default class Badges extends Component {
         </div>
         <div className="Badges__container">
           <div className="Badges__buttons">
-            <a href="/badges/new" className="btn btn-primary">
+            {/* Link is a react router component */}
+            <Link to="/badges/new" className="btn btn-primary">
               New Badge
-            </a>
+            </Link>
           </div>
           {/* Now, using the data */}
           <div className="Badges__list">

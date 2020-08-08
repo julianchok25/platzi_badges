@@ -11,8 +11,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 // import Badge from "./components/Badge";
-// import BadgeNew from "./pages/BadgeNew";
-import Badges from "./pages/Badges";
+// App is a componenet where is located the BrowserRouter
+import App from "./components/App";
 import "bootstrap/dist/css/bootstrap.css";
 import "./global.css";
 
@@ -54,4 +54,4 @@ const container = document.getElementById("app");
   container
 ); */
 
-ReactDOM.render(<Badges />, container);
+ReactDOM.render(<App />, container);
