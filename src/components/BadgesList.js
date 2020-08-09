@@ -24,28 +24,34 @@ export default class BadgesList extends Component {
         {/* Map recibe una función como argumneto, recorre cada uno de los elementos y tiene que regresar otro valor */}
         {this.props.badges.map((badge) => {
           return (
-            <li key={badge.id} className="BadgesList__list">
-              <Gravatar
-                className="BadgesList__avatar"
-                email={badge.email}
-                alt="Avatar"
-              />
-              <div>
-                <p className="BadgesList__name">
-                  {badge.firstName} {badge.lastName}
-                </p>
-                <img
-                  className="BadgesList__twitter-logo"
-                  src={twitterLogo}
-                  alt="Twitter Logo"
+            // Navigate for each element to the edit page
+            <Link
+              className="text-reset text-decoration-none"
+              to={`/badges/${badge.id}/edit`}
+            >
+              <li key={badge.id} className="BadgesList__list">
+                <Gravatar
+                  className="BadgesList__avatar"
+                  email={badge.email}
+                  alt="Avatar"
                 />
-                <span className="BadgesList__name-twitter">
-                  {badge.twitter}
-                </span>
-                <br />
-                {badge.jobTitle}
-              </div>
-            </li>
+                <div>
+                  <p className="BadgesList__name">
+                    {badge.firstName} {badge.lastName}
+                  </p>
+                  <img
+                    className="BadgesList__twitter-logo"
+                    src={twitterLogo}
+                    alt="Twitter Logo"
+                  />
+                  <span className="BadgesList__name-twitter">
+                    {badge.twitter}
+                  </span>
+                  <br />
+                  {badge.jobTitle}
+                </div>
+              </li>
+            </Link>
           );
         })}
       </ul>
