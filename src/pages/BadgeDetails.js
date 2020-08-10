@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Badge from "../components/Badge";
 import Navbar from "../components/Navbar";
+import DeleteBadgeModal from "../components/DeleteBadgeModal";
 
 import "./styles/BadgeDetails.css";
 import confLogo from "../images/platziconf-logo.svg";
@@ -48,7 +49,15 @@ export default function BadgeDetails(props) {
                 </Link>
               </div>
               <div>
-                <button className="btn btn-danger">Delete</button>
+                <button onClick={props.onOpenModal} className="btn btn-danger">
+                  Delete
+                </button>
+                {/* Renderiza un elemento fuera del nodo principal de nuestra app, fuera de app en el index.html */}
+                <DeleteBadgeModal
+                  isOpen={props.modalIsOpen}
+                  onClose={props.onCloseModal}
+                  onDeleteBadge={props.onDeleteBadge}
+                />
               </div>
             </div>
           </div>
