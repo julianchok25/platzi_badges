@@ -26,8 +26,9 @@ export default class BadgesList extends Component {
           return (
             // Navigate for each element to the edit page
             <Link
+              key={badge.id}
               className="text-reset text-decoration-none"
-              to={`/badges/${badge.id}/edit`}
+              to={`/badges/${badge.id}`}
             >
               <li key={badge.id} className="BadgesList__list">
                 <Gravatar

@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import BadgesList from "../components/BadgesList";
 import PageLoading from "../components/PageLoading";
 import PageError from "../components/PageError";
+import MiniLoader from "../components/MiniLoader";
 import api from "../api";
 
 import "./styles/Badges.css";
@@ -18,6 +19,12 @@ export default class Badges extends Component {
 
   componentDidMount() {
     this.fetchData();
+    this.intervalId = setInterval(this.fetchData, 5000);
+  }
+
+  componentWillUnmount() {
+    // avoid the interval still workin when component is destroyed
+    clearInterval(this.intervalId);
   }
 
   fetchData = async () => {
@@ -35,7 +42,7 @@ export default class Badges extends Component {
     }
   };
   render() {
-    if (this.state.loading === true) {
+    if (this.state.loading === true && this.state.data === undefined) {
       return <PageLoading />;
     }
     if (this.state.error) {
@@ -68,6 +75,7 @@ export default class Badges extends Component {
               <BadgesList badges={this.state.data} />
             </div>
           </div>
+          {this.state.loading && <MiniLoader />}
         </div>
       </div>
     );
