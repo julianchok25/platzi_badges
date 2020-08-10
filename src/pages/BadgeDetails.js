@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Badge from "../components/Badge";
 import Navbar from "../components/Navbar";
@@ -7,7 +7,19 @@ import DeleteBadgeModal from "../components/DeleteBadgeModal";
 import "./styles/BadgeDetails.css";
 import confLogo from "../images/platziconf-logo.svg";
 
+// Creating a custom hook
+function useIncreaseCount(max) {
+  const [count, setCount] = useState(0);
+
+  if (count > max) {
+    setCount(0);
+  }
+  return [count, setCount];
+}
+
 export default function BadgeDetails(props) {
+  // const [count, setCount] = useState(0);
+  const [count, setCount] = useIncreaseCount(4);
   const badge = props.badge;
   return (
     <div>
@@ -41,6 +53,15 @@ export default function BadgeDetails(props) {
             <h2>Actions</h2>
             <div>
               <div>
+                {/* Testing react hooks with usestate */}
+                <button
+                  onClick={() => {
+                    setCount(count + 1);
+                  }}
+                  className="btn btn-primary mr-4"
+                >
+                  Increase count: {count}
+                </button>
                 <Link
                   className="btn btn-primary mb-4"
                   to={`/badges/${badge.id}/edit`}

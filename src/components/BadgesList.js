@@ -1,28 +1,78 @@
-import React, { Component } from "react";
 import Gravatar from "./Gravatar";
+import React, { useState, useMemo } from "react";
 
 import { Link } from "react-router-dom";
 import "./styles/BadgesList.css";
 import twitterLogo from "../images/Twitter_Logo_Blue.png";
 
-// Es un componente que tiene una responsabilidad única y que le pertenece
+function useSearchBadges(badges) {
+  const [query, setQuery] = useState("");
+  const [filteredBadges, setFilteredBadges] = useState(badges);
+  // Esta forma es muy costosa para la app, para eso se usa el hook useMemo
+  /*   const filteredBadges = badges.filter((badge) => {
+    return `${badge.firstName} ${badge.lastName}`
+      .toLowerCase()
+      .includes(query.toLowerCase());
+  }); */
+  useMemo(() => {
+    const result = badges.filter((badge) => {
+      return `${badge.firstName} ${badge.lastName}`
+        .toLowerCase()
+        .includes(query.toLowerCase());
+    });
+    setFilteredBadges(result);
+    // Si el query y los badges cambian, se vuelve a calcular el valor
+  }, [badges, query]);
+  return { query, setQuery, filteredBadges };
+}
 
-export default class BadgesList extends Component {
-  render() {
-    if (this.props.badges.length === 0) {
-      return (
-        <div>
-          <h3>No badges were found</h3>
-          <Link className="btn btn-primary" to="/badges/new">
-            Create new Badge
-          </Link>
-        </div>
-      );
-    }
+// Es un componente que tiene una responsabilidad única y que le pertenece
+export default function BadgesList(props) {
+  const badges = props.badges;
+  const { query, setQuery, filteredBadges } = useSearchBadges(badges);
+
+  if (filteredBadges.length === 0) {
     return (
+      <div>
+        <div className="form-group">
+          <label>Filter Badges</label>
+          {/* Este input es controlado, se le pasa el valor */}
+          <input
+            type="text"
+            className="form-control "
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              // console.log(e.target.value);
+            }}
+          />
+        </div>
+
+        <h3>No badges were found</h3>
+        <Link className="btn btn-primary" to="/badges/new">
+          Create new Badge
+        </Link>
+      </div>
+    );
+  }
+  return (
+    <div>
+      <div className="form-group">
+        <label>Filter Badges</label>
+        {/* Este input es controlado, se le pasa el valor */}
+        <input
+          type="text"
+          className="form-control "
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            // console.log(e.target.value);
+          }}
+        />
+      </div>
       <ul className="list-unstyled">
         {/* Map recibe una función como argumneto, recorre cada uno de los elementos y tiene que regresar otro valor */}
-        {this.props.badges.map((badge) => {
+        {filteredBadges.map((badge) => {
           return (
             // Navigate for each element to the edit page
             <Link
@@ -56,6 +106,6 @@ export default class BadgesList extends Component {
           );
         })}
       </ul>
-    );
-  }
+    </div>
+  );
 }
